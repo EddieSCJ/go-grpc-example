@@ -19,7 +19,14 @@ message CategoryResponse {
   repeated Category category = 1;
 }
 
+message FindCategoryRequest {
+  string id = 1;
+}
+
+message Blank {}
+
 service CategoryService {
   rpc CreateCategory(CreateCategoryRequest) returns (CategoryResponse) {}
-
+  rpc GetCategories(Blank) returns (CategoryResponse) {}
+  rpc GetCategory(FindCategoryRequest) returns (CategoryResponse) {}
 }

@@ -28,3 +28,16 @@ with protoc. Just type in your terminal:
 protoc --go_out=. --go-grpc_out=. proto/category/course_category.proto
 
 ```
+---
+You'll need to install [evans](https://github.com/ktr0731/evans#macos) to test you grpc api.
+
+If you are in mac do the following, if not, click in the link and follow the instructions
+```bash
+brew tap ktr0731/evans
+brew install evans
+```
+
+---
+We are running it in port `50051` because of evans (the client we are using to 
+test our server). If you want to change it, you'll need to change it in the `main.go` file.
+
