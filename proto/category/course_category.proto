@@ -27,6 +27,9 @@ message Blank {}
 
 service CategoryService {
   rpc CreateCategory(CreateCategoryRequest) returns (CategoryResponse) {}
+  rpc CreateCategoryStream(stream CreateCategoryRequest) returns (CategoryResponse) {}
+  rpc CreateCategoryStreamBoth(stream CreateCategoryRequest) returns (stream Category) {}
   rpc GetCategories(Blank) returns (CategoryResponse) {}
   rpc GetCategory(FindCategoryRequest) returns (CategoryResponse) {}
+
 }

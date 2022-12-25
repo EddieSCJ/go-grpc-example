@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/EddieSCJ/go-grpc-example/internals/database"
 	"github.com/EddieSCJ/go-grpc-example/internals/pb"
+	"io"
 )
 
 type CategoryService struct {
@@ -79,4 +80,51 @@ func (c *CategoryService) GetCategory(ctx context.Context, in *pb.FindCategoryRe
 	}
 
 	return response, nil
+}
+
+func (c *CategoryService) CreateCategoryStream(stream pb.CategoryService_CreateCategoryStreamServer) error {
+	categoryList := make([]*pb.Category, 0)
+	for {
+		category, err := stream.Recv()
+		if err == io.EOF {
+			return stream.SendAndClose(&pb.CategoryResponse{Category: categoryList})
+		}
+
+		result, err := c.CategoryDB.Create(category.Name, category.Description)
+		if err != nil {
+			return err
+		}
+
+		categoryItem := &pb.Category{
+			Id:          result.ID,
+			Name:        result.Name,
+			Description: result.Description,
+		}
+		categoryList = append(categoryList, categoryItem)
+	}
+}
+
+func (c *CategoryService) CreateCategoryStreamBoth(stream pb.CategoryService_CreateCategoryStreamBothServer) error {
+	for {
+		category, err := stream.Recv()
+		if err == io.EOF {
+			return nil
+		}
+
+		result, err := c.CategoryDB.Create(category.Name, category.Description)
+		if err != nil {
+			return err
+		}
+
+		categoryItem := &pb.Category{
+			Id:          result.ID,
+			Name:        result.Name,
+			Description: result.Description,
+		}
+
+		err = stream.Send(categoryItem)
+		if err != nil {
+			return err
+		}
+	}
 }

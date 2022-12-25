@@ -41,3 +41,6 @@ brew install evans
 We are running it in port `50051` because of evans (the client we are using to 
 test our server). If you want to change it, you'll need to change it in the `main.go` file.
 
+---
+When using streams and evans, to exit stream (declare EOF) you have to
+type `ctrl + d` in your terminal.
