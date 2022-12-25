@@ -17,7 +17,7 @@ go mod init <link-to-your-repo>
 
 Ex:
 
-go mod init github.com/EddieSCJ/go-grpc-example
+go mod init github.com/EddieSCJ/go-grpc-example-example
 ```
 
 ## Tips
